@@ -13,8 +13,22 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata = {
-  title: "Solar Energy Website",
-  description: "Your trusted solar energy solutions provider",
+  title: 'Solar Energy Solutions | Your Trusted Solar Provider',
+  description: 'Discover reliable solar panels, inverters, batteries, and EV chargers. Reduce your energy bills and carbon footprint today.',
+  openGraph: {
+    title: 'Solar Energy Solutions | Your Trusted Solar Provider',
+    description: 'Reliable solar energy solutions for homes and businesses.',
+    url: 'https://www.yourwebsite.com',
+    siteName: 'Solar Energy Solutions',
+    images: [
+      {
+        url: '/solar-home.png',
+        width: 1200,
+        height: 630,
+        alt: 'Solar Energy Solutions',
+      },
+    ],
+  },
 };
 
 export default function RootLayout({ children }) {
