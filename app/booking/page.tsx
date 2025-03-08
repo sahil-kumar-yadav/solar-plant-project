@@ -8,9 +8,17 @@ export default function BookingPage() {
   const [date, setDate] = useState(new Date());
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    // Validate that the selected date is not in the past
+    const currentDate = new Date();
+    if (date < currentDate.setHours(0, 0, 0, 0)) {
+      setErrorMessage('You cannot book an appointment for a past date.');
+      return;
+    }
 
     const bookingData = {
       name,
@@ -31,6 +39,7 @@ export default function BookingPage() {
       setName('');
       setEmail('');
       setDate(new Date());
+      setErrorMessage('');
     } catch (error) {
       console.error(error);
       alert('An error occurred. Please try again.');
@@ -77,9 +86,15 @@ export default function BookingPage() {
             <Calendar
               value={date}
               onChange={setDate}
+              minDate={new Date()} // Prevent selecting past dates
               className="mx-auto border-none shadow-md rounded-lg overflow-hidden"
             />
           </div>
+
+          {/* Error Message */}
+          {errorMessage && (
+            <p className="text-red-600 font-semibold text-center">{errorMessage}</p>
+          )}
 
           {/* Submit Button */}
           <button
