@@ -1,70 +1,81 @@
 import fs from 'fs';
 import path from 'path';
 import matter from 'gray-matter';
-import { MDXRemote } from 'next-mdx-remote/rsc';
-import { notFound } from 'next/navigation';
 import Link from 'next/link';
 
-const postsDirectory = path.join(process.cwd(), 'src/posts');
+interface Post {
+  slug: string;
+  title: string;
+  date: string;
+  author: string;
+}
 
-// Generate static paths for all blog posts
-export async function generateStaticParams() {
-  try {
-    const filenames = fs.readdirSync(postsDirectory);
+// Fetch blog posts safely with error handling
+function getPosts(): Post[] {
+  const postsDirectory = path.join(process.cwd(), 'src/posts');
 
-    return filenames.map((filename) => ({
-      slug: filename.replace(/\.mdx$/, ''),
-    }));
-  } catch (error) {
-    console.error('Error reading posts directory:', error);
+  if (!fs.existsSync(postsDirectory)) {
+    console.warn(`Posts directory not found: ${postsDirectory}`);
     return [];
   }
+
+  const filenames = fs.readdirSync(postsDirectory);
+
+  const posts = filenames.map((filename) => {
+    const filePath = path.join(postsDirectory, filename);
+    const fileContents = fs.readFileSync(filePath, 'utf8');
+    const { data } = matter(fileContents);
+
+    return {
+      slug: filename.replace(/\.mdx$/, ''),
+      title: data.title,
+      date: data.date,
+      author: data.author,
+    };
+  });
+
+  // Sort posts by latest date first
+  return posts.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
 }
 
-// Fetch post data by slug
-async function getPostData(slug: string) {
-  const fullPath = path.join(postsDirectory, `${slug}.mdx`);
+export default function BlogPage() {
+  let posts: Post[] = [];
 
-  if (!fs.existsSync(fullPath)) {
-    return null;
+  try {
+    posts = getPosts();
+  } catch (error) {
+    console.error('Error fetching posts:', error);
+    return (
+      <main className="text-center py-20">
+        <h2 className="text-red-500 text-xl">Unable to load blog posts. Please try again later.</h2>
+      </main>
+    );
   }
-
-  const fileContents = fs.readFileSync(fullPath, 'utf8');
-  const { data: frontMatter, content } = matter(fileContents);
-
-  return { frontMatter, content };
-}
-
-// Blog Post Page Component
-export default async function BlogPost({ params }: { params: { slug: string } }) {
-  const postData = await getPostData(params.slug);
-
-  if (!postData) {
-    if (!postData) {
-      return (
-        <div className="container mx-auto py-12 px-4 text-center">
-          <h1 className="text-3xl font-bold text-red-600">Post Not Found</h1>
-          <p className="text-gray-600 mt-4">
-            The blog post you are looking for does not exist or has been removed.
-          </p>
-          <Link href="/blog" className="mt-6 inline-block bg-green-600 text-white px-6 py-3 rounded hover:bg-green-700">
-            Back to Blog
-          </Link>
-        </div>
-      );
-    }
-    
-  }
-
-  const { frontMatter, content } = postData;
 
   return (
-    <article className="prose container mx-auto py-12 px-4">
-      <h1 className="text-4xl font-bold text-green-700 mb-4">{frontMatter.title}</h1>
-      <p className="text-gray-500 mb-8">
-        By <span className="font-semibold">{frontMatter.author}</span> on {frontMatter.date}
-      </p>
-      <MDXRemote source={content} />
-    </article>
+    <main className="container mx-auto py-16 px-4">
+      <h1 className="text-4xl font-extrabold text-green-700 text-center mb-4">Solar Energy Insights</h1>
+      <p className="text-gray-600 text-center mb-12">Explore expert articles, tips, and guides about solar energy.</p>
+
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        {posts.map((post) => (
+          <Link href={`/blog/${post.slug}`} key={post.slug}>
+            <div className="group bg-white rounded-xl shadow-lg hover:shadow-xl transition duration-300 transform hover:-translate-y-2 cursor-pointer">
+              <div className="p-6">
+                <h3 className="text-xl font-bold text-green-700 group-hover:text-green-500 transition-colors duration-300">
+                  {post.title}
+                </h3>
+                <p className="mt-2 text-sm text-gray-500">
+                  By {post.author} on {new Date(post.date).toLocaleDateString()}
+                </p>
+                <p className="mt-4 text-gray-600 line-clamp-3">
+                  Read more about {post.title.toLowerCase()}...
+                </p>
+              </div>
+            </div>
+          </Link>
+        ))}
+      </div>
+    </main>
   );
 }
