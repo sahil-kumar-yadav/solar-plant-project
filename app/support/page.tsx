@@ -18,7 +18,7 @@ export default function SupportPage() {
             await emailjs.send(
                 process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID!,
                 process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID!,
-                { name, email: formData.get('email'), message: formData.get('message') },
+                { name, email, message },
                 process.env.NEXT_PUBLIC_EMAILJS_USER_ID!
             );
             alert('Message sent successfully!');
@@ -30,40 +30,81 @@ export default function SupportPage() {
     };
 
     return (
-        <main className="container mx-auto py-12 px-4">
-            <h1 className="text-3xl font-bold mb-8 text-center">Customer Support</h1>
+        <main className="container mx-auto py-12 px-4 max-w-3xl">
+            <h1 className="text-4xl font-bold mb-8 text-center text-green-700">Customer Support</h1>
 
             {/* FAQ Section */}
             <section className="mb-12">
-                <h2 className="text-2xl font-semibold mb-4">Frequently Asked Questions</h2>
-                <Accordion>
-                    <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-                        How long does solar installation take?
+                <h2 className="text-2xl font-semibold mb-6 text-gray-800">Frequently Asked Questions</h2>
+                <Accordion className="mb-4 shadow-lg rounded-lg border border-gray-200">
+                    <AccordionSummary expandIcon={<ExpandMoreIcon />} className="bg-green-50">
+                        <Typography className="font-semibold text-green-700">How long does solar installation take?</Typography>
                     </AccordionSummary>
-                    <AccordionDetails>
-                        Typically between 1 to 3 days depending on the project size.
+                    <AccordionDetails className="bg-gray-50">
+                        <Typography className="text-gray-600">Typically between 1 to 3 days depending on the project size.</Typography>
                     </AccordionDetails>
                 </Accordion>
-                <Accordion>
-                    <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-                        What warranty do you offer on solar panels?
+                <Accordion className="mb-4 shadow-lg rounded-lg border border-gray-200">
+                    <AccordionSummary expandIcon={<ExpandMoreIcon />} className="bg-green-50">
+                        <Typography className="font-semibold text-green-700">What warranty do you offer on solar panels?</Typography>
                     </AccordionSummary>
-                    <AccordionDetails>
-                        We offer a 25-year warranty on solar panels.
+                    <AccordionDetails className="bg-gray-50">
+                        <Typography className="text-gray-600">We offer a 25-year warranty on solar panels.</Typography>
                     </AccordionDetails>
                 </Accordion>
             </section>
 
             {/* Contact Form */}
-            <section className="max-w-xl">
-                <h2 className="text-2xl font-semibold mb-4">Contact Support</h2>
-                <form onSubmit={handleSubmit} className="space-y-4">
-                    <input type="text" name="name" placeholder="Your Name" required className="w-full border rounded px-3 py-2 mb-4" />
-                    <input type="email" name="email" required placeholder="Email" className="w-full border rounded px-3 py-2 mb-4" />
-                    <textarea name="message" required placeholder="Your message" rows={6} className="w-full border rounded px-3 py-2 mb-4"></textarea>
-                    <button type="submit" className="bg-green-600 text-white px-6 py-3 rounded hover:bg-green-700 transition duration-300">
-                        Send Message
-                    </button>
+            <section className="bg-white p-8 rounded-lg shadow-lg">
+                <h2 className="text-2xl font-semibold mb-6 text-gray-800">Contact Support</h2>
+                <form onSubmit={handleSubmit} className="space-y-6">
+                    <div>
+                        <TextField
+                            label="Your Name"
+                            name="name"
+                            required
+                            fullWidth
+                            variant="outlined"
+                            size="medium"
+                            className="bg-gray-50"
+                        />
+                    </div>
+                    <div>
+                        <TextField
+                            label="Email"
+                            name="email"
+                            type="email"
+                            required
+                            fullWidth
+                            variant="outlined"
+                            size="medium"
+                            className="bg-gray-50"
+                        />
+                    </div>
+                    <div>
+                        <TextField
+                            label="Your Message"
+                            name="message"
+                            required
+                            fullWidth
+                            variant="outlined"
+                            size="medium"
+                            multiline
+                            rows={6}
+                            className="bg-gray-50"
+                        />
+                    </div>
+                    <div className="text-center">
+                        <Button
+                            type="submit"
+                            variant="contained"
+                            color="success"
+                            size="large"
+                            className="w-full py-3 mt-4 text-white"
+                        >
+                            Send Message
+                        </Button>
+                    </div>
                 </form>
             </section>
         </main>
