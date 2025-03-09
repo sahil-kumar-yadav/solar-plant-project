@@ -47,7 +47,7 @@ export default function Home() {
         </section>
 
         {/* Call to Action */}
-        <section className="bg-gradient-to-r from-green-500 to-green-700 py-20">
+        <section className="relative bg-gradient-to-r from-green-500 to-green-700 py-20 overflow-hidden">
           <div className="container mx-auto px-4 text-center text-white">
             <h2 className="text-4xl font-bold mb-6">Ready To Embrace Solar?</h2>
             <p className="mb-8 text-lg max-w-xl mx-auto leading-relaxed">
@@ -112,13 +112,13 @@ export default function Home() {
               {/* CTA Button */}
               <Link href="/support" passHref legacyBehavior>
                 <button type='button' role='link' aria-label='Contact Us' tabIndex={0}
-                  className='mt-[30px] bg-green-[600] text-white px-[32px] py-[12px] rounded-full shadow-lg hover:bg-green-[700] transition duration-[300ms] transform hover:scale-[1.05]'>
+                  className='mt-[30px] bg-green-600 text-white px-[32px] py-[12px] rounded-full shadow-lg hover:bg-green-[700] transition duration-[300ms] transform hover:scale-[1.05]'>
                   Contact Us Today
                 </button>
               </Link>
 
               {/* Image */}
-              <div className='flex justify-center items-center mt-[40px] md:mt-[0px]'>
+              <div className='flex justify-center items-center mt-[40px]'>
                 <Image src='/solar-team.png' alt='Our Team' width={550} height={400}
                   className='rounded-xl shadow-xl transform hover:scale-[1.05] transition duration-[300ms]' />
               </div>

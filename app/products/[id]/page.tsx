@@ -13,7 +13,8 @@ export async function generateStaticParams() {
 }
 
 // Main component to render product details
-export default function ProductPage({ params }: ProductPageProps) {
+export default async function ProductPage({ params }: ProductPageProps) {
+  // Find the product by id (Ensure params.id is awaited)
   const product = products.find((p) => p.id === params.id);
 
   if (!product) {
