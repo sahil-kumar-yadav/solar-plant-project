@@ -97,12 +97,15 @@ export default function Home() {
 
         {/* Why Choose Us Section */}
         <section className="py-20 bg-gradient-to-b from-orange-50 to-white">
-          <div className="container mx-auto px-4 grid grid-cols-1 md:grid-cols-2 gap-x-[60px] items-center">
-            {/* Text Content */}
-            <div>
-              <h2 className="text-[40px] font-extrabold mb-[30px] text-orange-600">Why Choose Our Solar Solutions?</h2>
+          <div className="container mx-auto px-4 md:px-8 grid grid-cols-1 md:grid-cols-2 gap-x-12 items-center">
 
-              <ul className="space-y-[20px] text-lg text-gray-[700] list-disc pl-[20px] leading-relaxed">
+            {/* Text Content */}
+            <div className="space-y-8">
+              <h2 className="text-4xl font-extrabold mb-6 text-orange-600 text-center md:text-left">
+                Why Choose Our Solar Solutions?
+              </h2>
+
+              <ul className="space-y-5 text-lg text-gray-700 list-disc pl-5 leading-relaxed">
                 <li>Expert installation by certified professionals.</li>
                 <li>High-quality products with industry-leading warranties.</li>
                 <li>Personalized solutions tailored to your needs.</li>
@@ -110,19 +113,30 @@ export default function Home() {
               </ul>
 
               {/* CTA Button */}
-              <Link href="/support" passHref legacyBehavior>
-                <button type='button' role='link' aria-label='Contact Us' tabIndex={0}
-                  className='mt-[30px] bg-green-600 text-white px-[32px] py-[12px] rounded-full shadow-lg hover:bg-green-[700] transition duration-[300ms] transform hover:scale-[1.05]'>
-                  Contact Us Today
-                </button>
-              </Link>
-
-              {/* Image */}
-              <div className='flex justify-center items-center mt-[40px]'>
-                <Image src='/solar-team.png' alt='Our Team' width={550} height={400}
-                  className='rounded-xl shadow-xl transform hover:scale-[1.05] transition duration-[300ms]' />
+              <div className="text-center md:text-left">
+                <Link href="/support" passHref legacyBehavior>
+                  <button
+                    type="button"
+                    role="link"
+                    aria-label="Contact Us"
+                    tabIndex={0}
+                    className="mt-8 bg-green-600 text-white px-8 py-3 rounded-full shadow-lg hover:bg-green-700 transition duration-300 transform hover:scale-105"
+                  >
+                    Contact Us Today
+                  </button>
+                </Link>
               </div>
+            </div>
 
+            {/* Image */}
+            <div className="flex justify-center items-center mt-8 md:mt-0">
+              <Image
+                src="/solar-team.png"
+                alt="Our Team"
+                width={550}
+                height={400}
+                className="rounded-xl shadow-xl transform hover:scale-105 transition duration-300"
+              />
             </div>
           </div>
         </section>
